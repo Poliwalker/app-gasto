@@ -1,31 +1,37 @@
 import inquirer from 'inquirer';
+import { mostrarGastoTotal } from './methods.js';
 
 const choices = [
 	{
 		type: 'list',
-		name: 'option',
-		message: 'Selecciona una opcion',
-		choices: ['agregar gasto', 'mostrar gasto total'],
+		name: 'opciones',
+		message: 'elige una opcion',
+		choices: ['Agregar gasto', 'Ver gastos', 'Salir'],
 	},
 ];
 
-const addSpent = [
+const questions = [
 	{
 		type: 'input',
-		name: 'description',
-		message: 'nombre de tu gasto',
+		name: 'gasto',
+		message: 'ingresa gasto realizado',
 	},
 	{
 		type: 'input',
-		name: 'amount',
-		message: 'cantidad de tu gasto',
+		name: 'monto',
+		message: 'ingresa monto gastado',
 	},
 ];
 
-export const promptGasto = async () => {
-	return await inquirer.prompt(choices).then((answers) => {
-		if (answers.option === 'agregar gasto') {
-			return inquirer.prompt(addSpent);
+export const promptGastos = async () => {
+	return await inquirer.prompt(choices).then(async (answers) => {
+		if (answers.opciones === 'Agregar gasto') {
+			return await inquirer.prompt(questions).then((answers) => {
+				return answers;
+			});
+		} else if (answers.opciones === 'Salir') {
+			return process.exit();
+		} else {
 		}
 	});
 };

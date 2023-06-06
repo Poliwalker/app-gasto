@@ -1,15 +1,14 @@
-import { getGasto, mostrarGastoTotal } from './methods.js';
+import { saveGastos, mostrarGastoTotal } from './methods.js';
+import { promptGastos } from './promptSpent.js';
 
-import { promptGasto } from './promptSpent.js';
+const run = async () => {
+	const gasto = await promptGastos();
 
-const runApp = async () => {
-	const spent = await promptGasto();
+	const gastoJson = await mostrarGastoTotal('./gastos.json');
 
-	const spentUser = mostrarGastoTotal();
+	const nuevoGasto = [...gastoJson, gasto];
 
-	const newSpent = [...spentUser, spent];
-
-	getGasto('./gastos.json', newSpent);
+	saveGastos('./gastos.json', nuevoGasto);
 };
 
-runApp();
+run();
